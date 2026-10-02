@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="register">
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="admin-login.html">Admin Portal</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="index.html">🏠 Home</a>
+        <a href="login.html">👤 User Login</a>
+        <a href="register.html" class="active">📝 Register Account</a>
+        <a href="admin-login.html">🛡️ Admin Portal</a>
+    </div>
+
+    <!-- MAIN REGISTER CONTENT -->
+    <div class="container section" style="display: flex; align-items: center; justify-content: center; min-height: 85vh; padding-top: 40px; padding-bottom: 40px;">
+        <div class="auth-card" style="width: 100%; max-width: 520px; border-top: 4px solid var(--primary);">
+            
+            <div style="text-align: center; margin-bottom: 24px;">
+                <span class="user-badge" style="margin-bottom: 8px;">Create Account</span>
+                <h2 style="font-size: 1.8rem; color: var(--text-white); margin-top: 4px;">Join FitTrack</h2>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Enter your personal and body metrics to start tracking.</p>
+            </div>
+
+            <!-- Dynamic Alert Box -->
+            <div id="alert-box" class="alert-box hidden"></div>
+
+            <form id="register-form" action="register" method="POST" onsubmit="return validateRegisterForm()">
+                
+                <div class="form-group">
+                    <label for="name">Full Name <span style="color: var(--danger);">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="e.g. Alex Johnson" required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span style="color: var(--danger);">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="e.g. alex@example.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span style="color: var(--danger);">*</span></label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="new-password">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="age">Age (years) <span style="color: var(--danger);">*</span></label>
+                        <input type="number" id="age" name="age" placeholder="25" min="10" max="100" required>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label for="gender">Gender <span style="color: var(--danger);">*</span></label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="height">Height (cm) <span style="color: var(--danger);">*</span></label>
+                        <input type="number" step="0.1" id="height" name="height" placeholder="175.0" min="50" max="250" required>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label for="weight">Weight (kg) <span style="color: var(--danger);">*</span></label>
+                        <input type="number" step="0.1" id="weight" name="weight" placeholder="70.0" min="20" max="300" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fitnessGoal">Primary Fitness Goal <span style="color: var(--danger);">*</span></label>
+                    <select id="fitnessGoal" name="fitnessGoal" required>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Fitness Maintenance">Fitness Maintenance</option>
+                        <option value="Endurance">Endurance & Stamina</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 10px;">Register Account</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-light);">
+                Already have an account? <a href="login.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign In Here &rarr;</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Activity Management - FitTrack Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="admin-workouts">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="admin-dashboard.html" class="logo">Fit<span>Track</span> <small style="font-size: 0.7rem; color: #3b82f6; text-transform: uppercase; font-weight: 600; margin-left: 4px;">Admin</small></a>
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-users.html">Users</a>
+                <a href="admin-exercises.html">Exercises</a>
+                <a href="admin-nutrition.html">Nutrition</a>
+                <a href="admin-workouts.html" class="active">Workouts</a>
+                <a href="admin-progress.html">Progress</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="admin-dashboard.html">📊 Admin Dashboard</a>
+        <a href="admin-users.html">👥 Users Management</a>
+        <a href="admin-exercises.html">🏋️ Exercise Catalog</a>
+        <a href="admin-workouts.html" class="active">💪 Workout Logs</a>
+        <a href="admin-nutrition.html">🥗 Nutrition Logs</a>
+        <a href="admin-progress.html">📈 Progress Logs</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container section">
+
+        <div class="welcome-banner" style="border-left: 4px solid #fbbf24;">
+            <div>
+                <h1>Workout Activity Log Oversight</h1>
+                <p>Monitor user workout sessions, inspect detailed set-by-set breakdowns and volume calculations, and delete entries.</p>
+            </div>
+            <div class="banner-date">
+                <span id="workoutCountBadge" class="history-count">0 Sessions</span>
+            </div>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="alertBox" class="alert-box hidden"></div>
+
+        <!-- FILTER BAR -->
+        <div class="nutrition-filter-bar">
+            <div class="filter-label-group">
+                <span class="filter-icon">🏋️</span>
+                <label style="font-weight: 500;">Filter Workouts:</label>
+            </div>
+            <div class="filter-input-group" style="flex: 1; display: flex; gap: 10px; flex-wrap: wrap;">
+                <select id="workoutUserFilter" class="filter-date-input" style="min-width: 180px;">
+                    <option value="ALL">All Users</option>
+                </select>
+
+                <input type="date" id="workoutDateFilter" class="filter-date-input">
+
+                <input type="text" id="workoutSearchInput" class="filter-date-input" placeholder="Search exercise or user..." style="flex: 1; min-width: 180px;">
+
+                <button type="button" id="btnFilterWorkouts" class="btn btn-secondary btn-sm">Filter</button>
+                <button type="button" id="btnResetWorkoutFilter" class="btn btn-outline btn-sm">Reset</button>
+            </div>
+        </div>
+
+        <!-- WORKOUTS TABLE -->
+        <div class="dashboard-card" style="padding: 20px;">
+            <div class="history-table-wrapper">
+                <table class="workout-history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Exercise</th>
+                            <th>Muscle Group</th>
+                            <th>Date</th>
+                            <th>Sets</th>
+                            <th>Total Volume</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="workoutsTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-light); padding: 30px;">
+                                Loading workout logs...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- WORKOUT SET DETAILS BREAKDOWN MODAL -->
+    <div id="workoutSetsModal" class="modal-backdrop hidden">
+        <div class="modal-content" style="max-width: 500px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: var(--text-white);" id="modalWorkoutTitle">Workout Set Details</h3>
+                <button type="button" id="btnCloseSetsModal" style="background: none; border: none; color: var(--text-light); font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+
+            <div id="modalSetsContent">
+                <p style="color: var(--text-light);">Loading sets breakdown...</p>
+            </div>
+
+            <div style="margin-top: 25px; text-align: right;">
+                <button type="button" id="btnCloseSetsModalBottom" class="btn btn-outline btn-sm">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE WORKOUT CONFIRMATION MODAL -->
+    <div id="deleteWorkoutModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3>Delete Workout Record?</h3>
+            <p id="deleteWorkoutMsg">Are you sure you want to delete this workout session log and all associated set data?</p>
+            
+            <input type="hidden" id="deleteTargetWorkoutId">
+            
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                <button type="button" id="btnCancelDeleteWorkout" class="btn btn-outline btn-sm">Cancel</button>
+                <button type="button" id="btnConfirmDeleteWorkout" class="btn btn-danger-sm" style="padding: 8px 20px; font-weight: 600;">Delete Workout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

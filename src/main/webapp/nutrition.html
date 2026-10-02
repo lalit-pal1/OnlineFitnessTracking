@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Tracking & AI Scanner - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="user-dashboard.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="user-dashboard.html">Dashboard</a>
+                <a href="workout.html">Workout Tracking</a>
+                <a href="nutrition.html" class="active">Nutrition Tracking</a>
+                <a href="progress.html">Progress Tracking</a>
+                <a href="goals.html">My Goals</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="user-dashboard.html">📊 Dashboard</a>
+        <a href="workout.html">🏋️ Workout Tracking</a>
+        <a href="nutrition.html" class="active">🥗 Nutrition Tracking</a>
+        <a href="progress.html">📈 Progress Tracking</a>
+        <a href="goals.html">🎯 My Goals</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- NUTRITION MAIN CONTENT -->
+    <main class="container section">
+        
+        <!-- HERO BANNER -->
+        <div class="welcome-banner">
+            <div>
+                <span class="user-badge">AI Meal Scanner</span>
+                <h1>🥗 Nutrition Tracking & AI Scanner</h1>
+                <p>Scan your meal photos for instant nutrition estimates or log manual entries with custom meal timing.</p>
+            </div>
+            <div class="banner-date" id="current-date"></div>
+        </div>
+
+        <!-- DYNAMIC ALERT CONTAINER -->
+        <div id="nutrition-alert" class="alert-box hidden"></div>
+
+        <!-- DATE FILTER BAR -->
+        <div class="nutrition-filter-bar">
+            <div class="filter-label-group">
+                <span class="filter-icon">📅</span>
+                <label for="nutritionFilterDate"><strong>View Nutrition for Date:</strong></label>
+            </div>
+            <div class="filter-input-group">
+                <input type="date" id="nutritionFilterDate" class="filter-date-input" onchange="handleDateFilterChange()">
+                <button type="button" class="btn btn-outline btn-sm" onclick="resetDateFilterToToday()">Today</button>
+                <button type="button" class="btn btn-outline btn-sm" onclick="showAllNutritionHistory()">Show All Dates</button>
+            </div>
+        </div>
+
+        <!-- DAILY NUTRITION SUMMARY CARDS GRID -->
+        <div class="grid grid-4 stat-grid" style="margin-bottom: 30px;">
+            <div class="stat-card">
+                <div class="stat-icon weight-icon">🔥</div>
+                <div class="stat-info">
+                    <span class="stat-label">Calories</span>
+                    <h2 id="summary-calories">0 kcal</h2>
+                    <span class="stat-sub">Energy Intake</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bmi-icon">💪</div>
+                <div class="stat-info">
+                    <span class="stat-label">Protein</span>
+                    <h2 id="summary-protein">0 g</h2>
+                    <span class="stat-sub">Muscle Building</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon goal-icon">🍚</div>
+                <div class="stat-info">
+                    <span class="stat-label">Carbs</span>
+                    <h2 id="summary-carbs">0 g</h2>
+                    <span class="stat-sub">Carbohydrates</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon age-icon">🥑</div>
+                <div class="stat-info">
+                    <span class="stat-label">Fats</span>
+                    <h2 id="summary-fats">0 g</h2>
+                    <span class="stat-sub">Healthy Fats</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TWO COLUMN LAYOUT: AI SCANNER & MANUAL FORM -->
+        <div class="dashboard-columns">
+            
+            <!-- LEFT COLUMN: AI FOOD SCANNER + MANUAL FORM -->
+            <div class="column-main">
+
+                <!-- 🤖 AI FOOD SCANNER CARD -->
+                <div class="dashboard-card ai-scanner-card" style="margin-bottom: 25px;">
+                    <div class="ai-card-header">
+                        <h3>🤖 AI Food Scanner</h3>
+                        <span class="badge-active">Smart AI Vision</span>
+                    </div>
+                    <p class="card-subtitle">Upload a photo of your meal to generate approximate nutrition estimates.</p>
+
+                    <div class="scanner-dropzone" id="scanner-dropzone">
+                        <!-- Hidden file input using inline style to guarantee hidden state across browsers -->
+                        <input type="file" id="mealImageInput" accept="image/jpeg,image/png,image/webp,image/*" style="display: none;" onchange="handleMealImageSelect(event)">
+                        
+                        <div class="dropzone-content" id="dropzone-content" style="display: block;">
+                            <div class="dropzone-icon">📷</div>
+                            <h4>Upload Meal Photo</h4>
+                            <p>Supported: JPG, JPEG, PNG, WEBP (Max: 5 MB)</p>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="triggerFileInput()">Select Image File</button>
+                        </div>
+
+                        <!-- IMAGE PREVIEW BOX (HIDDEN UNTIL FILE SELECTED) -->
+                        <div id="image-preview-container" class="image-preview-box" style="display: none;">
+                            <img id="meal-image-preview" src="" alt="Meal Photo Preview">
+                            <div class="image-preview-details">
+                                <span id="preview-filename">meal.jpg</span>
+                                <span id="preview-filesize" class="stat-sub">0 KB</span>
+                            </div>
+                            <div class="image-preview-actions">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-analyze-image" onclick="analyzeMealImage()">🔍 Analyze Meal</button>
+                                <button type="button" class="btn btn-danger-sm" onclick="removeMealImage()">❌ Remove Image</button>
+                            </div>
+                        </div>
+
+                        <!-- LOADING SPINNER CONTAINER -->
+                        <div id="ai-loading-box" class="ai-loading-box" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Analyzing meal photo with AI Vision model...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 📝 AI ESTIMATED RESULT EDITABLE CARD (HIDDEN UNTIL ANALYZED) -->
+                <div id="ai-results-card" class="dashboard-card ai-results-card" style="display: none; margin-bottom: 25px;">
+                    <h3>✨ AI Estimated Nutrition</h3>
+                    <p class="card-subtitle">Review detected items and edit nutrition values before saving.</p>
+
+                    <!-- DETECTED ITEMS BADGES -->
+                    <div id="ai-detected-container" class="detected-items-box">
+                        <span class="detected-label">Detected Foods:</span>
+                        <div id="ai-detected-items" class="detected-badges-list"></div>
+                    </div>
+
+                    <div class="alert-box alert-error" style="margin: 15px 0;">
+                        ⚠️ <strong>AI estimates are approximate. Please review and edit values before saving.</strong>
+                    </div>
+
+                    <form id="ai-save-form" onsubmit="return saveAIAnalyzedNutrition(event)">
+                        <div class="form-group">
+                            <label for="ai-foodName">Meal / Food Title *</label>
+                            <input type="text" id="ai-foodName" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="ai-calories">Calories (kcal) *</label>
+                                <input type="number" step="0.1" id="ai-calories" min="0" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="ai-protein">Protein (g) *</label>
+                                <input type="number" step="0.1" id="ai-protein" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="ai-carbs">Carbohydrates (g) *</label>
+                                <input type="number" step="0.1" id="ai-carbs" min="0" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="ai-fats">Fats (g) *</label>
+                                <input type="number" step="0.1" id="ai-fats" min="0" required>
+                            </div>
+                        </div>
+
+                        <!-- MEAL TIMING & TYPE -->
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="ai-mealType">Meal Type *</label>
+                                <select id="ai-mealType" onchange="handleAiMealTypeChange()">
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Morning Snack">Morning Snack</option>
+                                    <option value="Lunch" selected>Lunch</option>
+                                    <option value="Evening Snack">Evening Snack</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Post Workout">Post Workout</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="ai-mealTime">Time Consumed *</label>
+                                <input type="time" id="ai-mealTime" required>
+                            </div>
+                        </div>
+
+                        <!-- CUSTOM MEAL NAME (IF OTHER SELECTED) -->
+                        <div class="form-group" id="ai-customMealGroup" style="display: none;">
+                            <label for="ai-customMealName">Custom Meal Name *</label>
+                            <input type="text" id="ai-customMealName" placeholder="e.g. Pre-Gym Shake">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ai-nutritionDate">Log Date *</label>
+                            <input type="date" id="ai-nutritionDate" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">💾 Save to Nutrition</button>
+                    </form>
+                </div>
+
+                <!-- ✏️ MANUAL ADD FOOD FORM CARD -->
+                <div class="dashboard-card">
+                    <h3>+ Manual Food Entry</h3>
+                    <p class="card-subtitle">Log food items manually with custom meal timing and macros.</p>
+
+                    <form id="nutrition-form" onsubmit="return handleNutritionSubmit(event)">
+                        
+                        <!-- FOOD NAME -->
+                        <div class="form-group">
+                            <label for="foodName">Food Name *</label>
+                            <input type="text" id="foodName" name="foodName" placeholder="e.g. Oatmeal with Honey, Chicken Breast, Protein Shake" required>
+                        </div>
+
+                        <!-- MACROS & CALORIES ROW -->
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="calories">Calories (kcal) *</label>
+                                <input type="number" step="0.1" id="calories" name="calories" placeholder="e.g. 250.0" min="0" required>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="protein">Protein (g) *</label>
+                                <input type="number" step="0.1" id="protein" name="protein" placeholder="e.g. 31.0" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="carbs">Carbohydrates (g) *</label>
+                                <input type="number" step="0.1" id="carbs" name="carbs" placeholder="e.g. 27.0" min="0" required>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="fats">Fats (g) *</label>
+                                <input type="number" step="0.1" id="fats" name="fats" placeholder="e.g. 13.0" min="0" required>
+                            </div>
+                        </div>
+
+                        <!-- MEAL TIMING & TYPE -->
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="mealType">Meal Type *</label>
+                                <select id="mealType" name="mealType" onchange="handleMealTypeChange()">
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Morning Snack">Morning Snack</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Evening Snack">Evening Snack</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Post Workout">Post Workout</option>
+                                    <option value="Other" selected>Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="mealTime">Time Consumed</label>
+                                <input type="time" id="mealTime" name="mealTime">
+                            </div>
+                        </div>
+
+                        <!-- CUSTOM MEAL NAME (IF OTHER SELECTED) -->
+                        <div class="form-group" id="custom-meal-group" style="display: none;">
+                            <label for="customMealName">Custom Meal Name *</label>
+                            <input type="text" id="customMealName" name="customMealName" placeholder="e.g. Pre-Gym Meal">
+                        </div>
+
+                        <!-- LOG DATE -->
+                        <div class="form-group">
+                            <label for="nutritionDate">Log Date *</label>
+                            <input type="date" id="nutritionDate" name="nutritionDate" required>
+                        </div>
+
+                        <div class="form-btn-group">
+                            <button type="submit" id="submit-nutrition-btn" class="btn btn-primary" style="flex: 2;">+ Add Food Entry</button>
+                            <button type="button" class="btn btn-outline" onclick="clearNutritionForm()" style="flex: 1;">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: NUTRITION TIPS & MEAL BREAKDOWN -->
+            <div class="column-sidebar">
+                <div class="dashboard-card" style="margin-bottom: 25px;">
+                    <h4>🤖 AI Scanner Guide</h4>
+                    <ul class="workout-tips-list">
+                        <li><strong>Clear Photos:</strong> Ensure meal photo is well-lit and items are clearly visible.</li>
+                        <li><strong>Editable Estimates:</strong> Review and adjust portions or macros before clicking save.</li>
+                        <li><strong>Meal Categories:</strong> Select Breakfast, Lunch, Dinner, or Post Workout for timing tracking.</li>
+                    </ul>
+                </div>
+
+                <div class="dashboard-card">
+                    <h4>💡 Macro Guidance</h4>
+                    <ul class="workout-tips-list">
+                        <li><strong>Protein:</strong> Essential for muscle repair (provides about 4 kcal per gram).</li>
+                        <li><strong>Carbohydrates:</strong> Primary workout energy (provide about 4 kcal per gram).</li>
+                        <li><strong>Dietary Fats:</strong> Support hormone & organ function (provide about 9 kcal per gram).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- NUTRITION HISTORY CARD (FULL WIDTH BELOW FORM) -->
+        <div class="dashboard-card" style="margin-top: 30px;">
+            <div class="history-header">
+                <h3>📋 Nutrition History</h3>
+                <span class="history-count" id="history-count">0 Entries</span>
+            </div>
+            <p class="card-subtitle" id="history-subtitle">Logged meals and snacks for the selected date.</p>
+
+            <div id="nutrition-history-container">
+                <div class="placeholder-box" id="no-nutrition-message">
+                    <div class="placeholder-icon">🥗</div>
+                    <h4>No Food Entries Found</h4>
+                    <p>Add a food entry using the AI Scanner or form above to record your nutrition intake for this date.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

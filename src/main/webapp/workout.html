@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracking - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="user-dashboard.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="user-dashboard.html">Dashboard</a>
+                <a href="workout.html" class="active">Workout Tracking</a>
+                <a href="nutrition.html">Nutrition Tracking</a>
+                <a href="progress.html">Progress Tracking</a>
+                <a href="goals.html">My Goals</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="user-dashboard.html">📊 Dashboard</a>
+        <a href="workout.html" class="active">🏋️ Workout Tracking</a>
+        <a href="nutrition.html">🥗 Nutrition Tracking</a>
+        <a href="progress.html">📈 Progress Tracking</a>
+        <a href="goals.html">🎯 My Goals</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- WORKOUT MAIN CONTENT -->
+    <main class="container section">
+        
+        <!-- HERO BANNER -->
+        <div class="welcome-banner">
+            <div>
+                <span class="user-badge">Workout Module</span>
+                <h1>🏋 Workout Tracking</h1>
+                <p>Log your workouts, track set-by-set performance, and build a stronger you.</p>
+            </div>
+            <div class="banner-date" id="current-date"></div>
+        </div>
+
+        <!-- DYNAMIC ALERT CONTAINER -->
+        <div id="workout-alert" class="alert-box hidden"></div>
+
+        <!-- QUICK STATS BAR -->
+        <div class="grid grid-3 stat-grid" style="margin-bottom: 30px;">
+            <div class="stat-card">
+                <div class="stat-icon weight-icon">🏋️‍♂️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Workouts</span>
+                    <h2 id="stat-total-workouts">0</h2>
+                    <span class="stat-sub">Sessions Logged</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bmi-icon">🔢</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Sets</span>
+                    <h2 id="stat-total-sets">0</h2>
+                    <span class="stat-sub">Sets Performed</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon goal-icon">💪</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Volume</span>
+                    <h2 id="stat-total-volume">0 kg</h2>
+                    <span class="stat-sub">Weight Lifted</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-columns">
+            
+            <!-- LEFT COLUMN: ADD WORKOUT FORM -->
+            <div class="column-main">
+                <div class="dashboard-card">
+                    <h3>+ Log New Workout</h3>
+                    <p class="card-subtitle">Select an exercise from catalog OR enter a custom exercise name.</p>
+
+                    <form id="workout-form" onsubmit="return handleWorkoutSubmit(event)">
+                        
+                        <!-- EXERCISE DUAL SELECTION OPTION -->
+                        <div class="form-group">
+                            <label>Exercise Source *</label>
+                            <div class="segmented-toggle">
+                                <label class="toggle-option active" id="toggle-catalog-label">
+                                    <input type="radio" name="exerciseType" value="catalog" checked onchange="toggleExerciseInputMode()">
+                                    <span class="toggle-icon">📋</span>
+                                    <span class="toggle-text">From Exercise Catalog</span>
+                                </label>
+                                <label class="toggle-option" id="toggle-custom-label">
+                                    <input type="radio" name="exerciseType" value="custom" onchange="toggleExerciseInputMode()">
+                                    <span class="toggle-icon">✏️</span>
+                                    <span class="toggle-text">Custom Exercise</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- EXERCISE DROPDOWN (CATALOG) -->
+                        <div class="form-group" id="catalog-exercise-group">
+                            <label for="exerciseId">Select Exercise *</label>
+                            <select id="exerciseId" name="exerciseId">
+                                <option value="">-- Loading Exercises --</option>
+                            </select>
+                        </div>
+
+                        <!-- CUSTOM EXERCISE TEXT INPUT -->
+                        <div class="form-group hidden" id="custom-exercise-group">
+                            <label for="customExerciseName">Custom Exercise Name *</label>
+                            <input type="text" id="customExerciseName" name="customExerciseName" placeholder="e.g. Incline Dumbbell Flyes, Cable Crossover">
+                        </div>
+
+                        <!-- WORKOUT DATE & TOTAL SETS COUNT -->
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="workoutDate">Workout Date *</label>
+                                <input type="date" id="workoutDate" name="workoutDate" required>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="numSets">Number of Sets *</label>
+                                <input type="number" id="numSets" name="numSets" value="3" min="1" max="30" required oninput="handleSetCountChange()">
+                            </div>
+                        </div>
+
+                        <!-- DYNAMIC SET DETAILS TABLE CONTAINER -->
+                        <div class="form-group">
+                            <label>Set Details (Enter Reps & Weight per Set) *</label>
+                            <div id="set-rows-container" class="set-details-table-wrapper">
+                                <!-- Dynamic set rows will be generated here by JavaScript -->
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submit-workout-btn" class="btn btn-primary btn-block">Log Workout Entry</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: WORKOUT TIPS & GUIDANCE -->
+            <div class="column-sidebar">
+                <div class="dashboard-card">
+                    <h4>💡 Workout Tips</h4>
+                    <ul class="workout-tips-list">
+                        <li><strong>Custom Exercises:</strong> You can log any exercise by typing its custom name if it's not in the catalog.</li>
+                        <li><strong>Dynamic Sets:</strong> Enter reps and weights for every set independently to accurately record progressive overload.</li>
+                        <li><strong>Total Volume:</strong> Total volume ($\sum \text{reps} \times \text{weight}$) measures your overall workload.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKOUT HISTORY CARD (FULL WIDTH BELOW FORM) -->
+        <div class="dashboard-card" style="margin-top: 30px;">
+            <div class="history-header">
+                <h3>📋 Workout History</h3>
+                <span class="history-count" id="history-count">0 Sessions</span>
+            </div>
+            <p class="card-subtitle">Your personal logged exercises and set breakdowns (Newest first).</p>
+
+            <div id="workout-history-container">
+                <div class="placeholder-box" id="no-workouts-message">
+                    <div class="placeholder-icon">🏋️‍♂️</div>
+                    <h4>No Workouts Logged Yet</h4>
+                    <p>Complete the form above to record your first workout session.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack — Smarter Fitness. Better Progress.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lightweight Three.js CDN for 3D hero background scene -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body data-page="landing">
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Fit<span>Track</span></a>
+            
+            <!-- DESKTOP NAV LINKS -->
+            <nav class="nav-links">
+                <a href="#toolkit">Features</a>
+                <a href="#about">About</a>
+                <a href="login.html" class="btn btn-outline btn-sm">User Login</a>
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="admin-login.html" class="btn btn-secondary btn-sm">Admin Portal</a>
+            </nav>
+
+            <!-- MOBILE HAMBURGER TOGGLE -->
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="#toolkit">⚡ Features</a>
+        <a href="#about">ℹ️ About</a>
+        <a href="login.html">👤 User Login</a>
+        <a href="register.html">📝 Register Account</a>
+        <a href="admin-login.html">🛡️ Admin Portal</a>
+    </div>
+
+    <!-- 3D HERO SECTION -->
+    <section class="hero">
+        <div id="hero-three-canvas"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge">🚀 Smart Fitness Platform</span>
+                <h1>Track Workouts. Fuel Your Body. Reach Your Goals.</h1>
+                <p>Everything you need to build better habits, track your progress, and stay consistent with AI-powered meal analysis and interactive analytics.</p>
+                
+                <div class="hero-actions">
+                    <a href="register.html" class="btn btn-primary btn-lg btn-block-mobile">Create Free Account</a>
+                    <a href="login.html" class="btn btn-outline btn-lg btn-block-mobile">User Login</a>
+                    <a href="admin-login.html" class="btn btn-secondary btn-lg btn-block-mobile">Admin Portal</a>
+                </div>
+            </div>
+
+            <!-- FLOATING 3D CARD STACK VISUAL -->
+            <div class="hero-3d-stack">
+                
+                <!-- TOP CARD: ACTIVE GOAL & METRICS -->
+                <div class="hero-3d-card card-top">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span class="user-badge">Muscle Gain Target</span>
+                        <span class="badge-active">IN PROGRESS</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                        <span style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase;">Target Weight</span>
+                        <strong style="font-size: 1.4rem; color: var(--primary);">75.0 kg</strong>
+                    </div>
+                    <div style="width: 100%; background: #0b1120; height: 8px; border-radius: 6px; overflow: hidden; margin-bottom: 6px;">
+                        <div style="width: 75%; height: 100%; background: linear-gradient(90deg, #10b981, #3b82f6);"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-light);">
+                        <span>Current: 71.5 kg</span>
+                        <span style="color: var(--primary); font-weight: 600;">75% Complete</span>
+                    </div>
+                </div>
+
+                <!-- MIDDLE CARD: NUTRITION & MACROS -->
+                <div class="hero-3d-card card-mid">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="font-size: 1.4rem;">🥗</span>
+                        <div>
+                            <strong style="color: var(--text-white); font-size: 0.9rem; display: block;">Daily Nutrition</strong>
+                            <span style="font-size: 0.78rem; color: var(--text-light);">2,200 kcal • 160g Protein</span>
+                        </div>
+                    </div>
+                    <span class="user-badge" style="background: rgba(59, 130, 246, 0.15); color: #93c5fd; border-color: rgba(59, 130, 246, 0.3);">🤖 AI Food Scanner Enabled</span>
+                </div>
+
+                <!-- BACK CARD: WORKOUT VOLUME -->
+                <div class="hero-3d-card card-back">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.4rem;">🏋️‍♂️</span>
+                        <div>
+                            <strong style="color: var(--text-white); font-size: 0.9rem; display: block;">Bench Press Session</strong>
+                            <span style="font-size: 0.78rem; color: var(--text-light);">4 Sets • 1,250 kg Total Volume</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / TOOLKIT SECTION -->
+    <section id="toolkit" class="section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 35px;">
+                <span class="user-badge" style="margin-bottom: 8px;">All-In-One Platform</span>
+                <h2 style="font-size: 2rem; color: var(--text-white); margin-bottom: 6px;">Your Complete Fitness Toolkit</h2>
+                <p style="color: var(--text-light); max-width: 620px; margin: 0 auto; font-size: 0.95rem;">Track your workouts, understand your nutrition, monitor your progress, and stay focused on the goals that matter to you.</p>
+            </div>
+
+            <div class="grid grid-4">
+                
+                <div class="dashboard-card" style="text-align: center;">
+                    <div class="stat-icon" style="margin: 0 auto 15px; color: var(--primary); background: rgba(16, 185, 129, 0.1);">🏋️‍♂️</div>
+                    <h3>Workout Tracking</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-light); margin-bottom: 15px;">Log every set, rep, and weight lifted with dynamic workload volume calculations.</p>
+                    <a href="login.html" class="btn btn-outline btn-sm btn-block">Track Workouts &rarr;</a>
+                </div>
+
+                <div class="dashboard-card" style="text-align: center;">
+                    <div class="stat-icon" style="margin: 0 auto 15px; color: #c4b5fd; background: rgba(139, 92, 246, 0.1);">🥗</div>
+                    <h3>Smart Nutrition</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-light); margin-bottom: 15px;">Track calories and macros with AI-powered meal photo analysis and timing logs.</p>
+                    <a href="login.html" class="btn btn-outline btn-sm btn-block">Scan Meals &rarr;</a>
+                </div>
+
+                <div class="dashboard-card" style="text-align: center;">
+                    <div class="stat-icon" style="margin: 0 auto 15px; color: var(--secondary); background: rgba(59, 130, 246, 0.1);">📈</div>
+                    <h3>Progress Insights</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-light); margin-bottom: 15px;">Follow your body weight and calculated BMI journey over time with clear charts.</p>
+                    <a href="login.html" class="btn btn-outline btn-sm btn-block">View Progress &rarr;</a>
+                </div>
+
+                <div class="dashboard-card" style="text-align: center;">
+                    <div class="stat-icon" style="margin: 0 auto 15px; color: #fca5a5; background: rgba(239, 68, 68, 0.1);">🎯</div>
+                    <h3>Personal Goals</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-light); margin-bottom: 15px;">Set realistic target dates, target weights, and keep moving consistently toward them.</p>
+                    <a href="login.html" class="btn btn-outline btn-sm btn-block">Set My Goals &rarr;</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section" style="background: rgba(15, 23, 42, 0.4); border-top: 1px solid var(--border-color);">
+        <div class="container" style="text-align: center; max-width: 800px;">
+            <span class="user-badge" style="margin-bottom: 10px;">Built For Performance</span>
+            <h2 style="font-size: 1.8rem; color: var(--text-white); margin-bottom: 12px;">Empowering Your Daily Consistency</h2>
+            <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.7; margin-bottom: 25px;">
+                Whether you're lifting weights, tracking meal nutrition, or striving for personal weight targets, FitTrack brings all your fitness data into one unified, mobile-first workspace.
+            </p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a href="register.html" class="btn btn-primary">Start Your Journey</a>
+                <a href="login.html" class="btn btn-outline">Sign In to Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">Train smarter. Track better. Keep progressing.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

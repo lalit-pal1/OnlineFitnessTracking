@@ -1,0 +1,13 @@
+-- ============================================================================
+-- ONLINE FITNESS TRACKING APPLICATION - DATABASE SCHEMA REDIRECT
+-- ============================================================================
+-- NOTE: This file is preserved for historical backwards compatibility.
+-- The official, complete, production-ready SQL database initialization script
+-- matching all Java DAOs (Parts 1-8) is located at:
+--
+--   database/fitness_tracking.sql
+--
+-- Please run database/fitness_tracking.sql to initialize or reset your MySQL database:
+--
+--   mysql -u root -p < database/fitness_tracking.sql
+-- ============================================================================

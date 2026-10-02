@@ -1,0 +1,16 @@
+target/
+.idea/
+.vscode/
+*.class
+*.log
+.env
+.env.*
+*.war
+*.jar
+
+# Legacy development files
+/backend/
+/frontend/
+/bin/
+/.github/modernize/
+/src/*.java

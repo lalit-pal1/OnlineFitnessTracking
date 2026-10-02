@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracking - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="user-dashboard.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="user-dashboard.html">Dashboard</a>
+                <a href="workout.html">Workout Tracking</a>
+                <a href="nutrition.html">Nutrition Tracking</a>
+                <a href="progress.html" class="active">Progress Tracking</a>
+                <a href="goals.html">My Goals</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="user-dashboard.html">📊 Dashboard</a>
+        <a href="workout.html">🏋️ Workout Tracking</a>
+        <a href="nutrition.html">🥗 Nutrition Tracking</a>
+        <a href="progress.html" class="active">📈 Progress Tracking</a>
+        <a href="goals.html">🎯 My Goals</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- PROGRESS MAIN CONTENT -->
+    <main class="container section">
+        
+        <!-- HERO BANNER -->
+        <div class="welcome-banner">
+            <div>
+                <span class="user-badge">Body Metrics</span>
+                <h1>📈 Progress Tracking & Body Metrics</h1>
+                <p>Track your body weight history over time, monitor automatically calculated BMI trends, and analyze your progress charts.</p>
+            </div>
+            <div class="banner-date" id="current-date"></div>
+        </div>
+
+        <!-- DYNAMIC ALERT CONTAINER -->
+        <div id="progress-alert" class="alert-box hidden"></div>
+
+        <!-- CURRENT PROGRESS SUMMARY CARDS GRID -->
+        <div class="grid grid-4 stat-grid" style="margin-bottom: 30px;">
+            
+            <div class="stat-card">
+                <div class="stat-icon weight-icon">⚖️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Current Weight</span>
+                    <h2 id="stat-progress-weight">-- kg</h2>
+                    <span class="stat-sub">Latest Record</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bmi-icon">📊</div>
+                <div class="stat-info">
+                    <span class="stat-label">Current BMI</span>
+                    <h2 id="stat-progress-bmi">--</h2>
+                    <span class="stat-sub">Calculated Value</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon goal-icon">🏷️</div>
+                <div class="stat-info">
+                    <span class="stat-label">BMI Category</span>
+                    <h3 id="stat-progress-bmi-category">--</h3>
+                    <span class="stat-sub">Health Status</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon age-icon">🎯</div>
+                <div class="stat-info">
+                    <span class="stat-label">Fitness Goal</span>
+                    <h3 id="stat-progress-goal">--</h3>
+                    <span class="stat-sub">Target Plan</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TWO COLUMN LAYOUT: FORM & CHARTS -->
+        <div class="dashboard-columns">
+            
+            <!-- LEFT COLUMN: ADD FORM & CHARTS -->
+            <div class="column-main">
+
+                <!-- 📝 ADD PROGRESS FORM CARD -->
+                <div class="dashboard-card" style="margin-bottom: 25px;">
+                    <h3>+ Log New Weight Entry</h3>
+                    <p class="card-subtitle">Record your current body weight. BMI is calculated automatically based on your height.</p>
+
+                    <form id="progress-form" onsubmit="return handleProgressSubmit(event)">
+                        
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="progressWeight">Weight (kg) *</label>
+                                <input type="number" step="0.1" id="progressWeight" name="progressWeight" placeholder="e.g. 72.5" min="20" max="300" required>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label for="progressDate">Log Date *</label>
+                                <input type="date" id="progressDate" name="progressDate" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="progressNotes">Notes / Observations (Optional)</label>
+                            <input type="text" id="progressNotes" name="progressNotes" placeholder="e.g. Morning weigh-in before breakfast, after leg day workout">
+                        </div>
+
+                        <div class="form-btn-group">
+                            <button type="submit" id="submit-progress-btn" class="btn btn-primary" style="flex: 2;">+ Add Progress Entry</button>
+                            <button type="button" class="btn btn-outline" onclick="clearProgressForm()" style="flex: 1;">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 📊 WEIGHT PROGRESS CHART CARD -->
+                <div class="dashboard-card" style="margin-bottom: 25px;">
+                    <div class="history-header">
+                        <h3>📉 Weight Progress Trend (kg)</h3>
+                        <span class="badge-active">Body Weight Line Chart</span>
+                    </div>
+                    <p class="card-subtitle">Chronological trend of your logged body weight readings.</p>
+                    
+                    <div class="chart-container-box">
+                        <canvas id="weightChartCanvas" height="240"></canvas>
+                    </div>
+                </div>
+
+                <!-- 📈 BMI PROGRESS CHART CARD -->
+                <div class="dashboard-card" style="margin-bottom: 25px;">
+                    <div class="history-header">
+                        <h3>📊 BMI Progress Trend</h3>
+                        <span class="badge-active">Body Mass Index Line Chart</span>
+                    </div>
+                    <p class="card-subtitle">Calculated Body Mass Index progress over time.</p>
+                    
+                    <div class="chart-container-box">
+                        <canvas id="bmiChartCanvas" height="240"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: BMI REFERENCE & TIPS -->
+            <div class="column-sidebar">
+                
+                <div class="dashboard-card" style="margin-bottom: 25px;">
+                    <h4>💡 BMI Reference Categories</h4>
+                    <ul class="bmi-scale-list">
+                        <li><span class="scale-dot dot-underweight"></span> <strong>Underweight:</strong> &lt; 18.5</li>
+                        <li><span class="scale-dot dot-normal"></span> <strong>Normal:</strong> 18.5 – 24.9</li>
+                        <li><span class="scale-dot dot-overweight"></span> <strong>Overweight:</strong> 25.0 – 29.9</li>
+                        <li><span class="scale-dot dot-obese"></span> <strong>Obese:</strong> 30.0+</li>
+                    </ul>
+                    <p class="stat-sub" style="margin-top: 15px; font-size: 0.85rem;">BMI formula: weight(kg) / (height(m) &times; height(m)). Your profile height is used for automatic calculation.</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h4>📌 Best Weigh-In Practices</h4>
+                    <ul class="workout-tips-list">
+                        <li><strong>Consistent Time:</strong> Weigh yourself at the same time of day (preferably in the morning after waking up).</li>
+                        <li><strong>Hydration Impact:</strong> Water intake and meal times cause temporary daily fluctuations. Focus on 2–4 week trends.</li>
+                        <li><strong>Regular Logs:</strong> Log your weight at least 1–2 times per week to generate informative progress charts.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS HISTORY TABLE (FULL WIDTH) -->
+        <div class="dashboard-card" style="margin-top: 30px;">
+            <div class="history-header">
+                <h3>📋 Progress History</h3>
+                <span class="history-count" id="history-count">0 Entries</span>
+            </div>
+            <p class="card-subtitle">Complete record of logged weight and calculated BMI entries.</p>
+
+            <div id="progress-history-container">
+                <div class="placeholder-box" id="no-progress-message">
+                    <div class="placeholder-icon">📈</div>
+                    <h4>No Progress Data Yet</h4>
+                    <p>Add your first progress entry above to start tracking your weight and BMI history.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

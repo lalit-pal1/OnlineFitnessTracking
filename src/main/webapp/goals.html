@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fitness Goals - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="goals">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="user-dashboard.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="user-dashboard.html">Dashboard</a>
+                <a href="workout.html">Workout</a>
+                <a href="nutrition.html">Nutrition</a>
+                <a href="progress.html">Progress</a>
+                <a href="goals.html" class="active">My Goals</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="user-dashboard.html">📊 Dashboard</a>
+        <a href="workout.html">🏋️ Workout Tracking</a>
+        <a href="nutrition.html">🥗 Nutrition Tracking</a>
+        <a href="progress.html">📈 Progress Tracking</a>
+        <a href="goals.html" class="active">🎯 My Goals</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container section">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div>
+                <h1>🎯 My Fitness Goals</h1>
+                <p>Define target body weight and daily macronutrient goals, track progress, and stay focused.</p>
+            </div>
+            <div class="banner-date">
+                <span id="current-date">Today</span>
+            </div>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="goal-alert" class="alert-box hidden"></div>
+
+        <!-- TWO COLUMN LAYOUT -->
+        <div class="dashboard-columns">
+            
+            <!-- LEFT COLUMN: ACTIVE GOAL & FORM -->
+            <div class="main-column">
+                
+                <!-- CURRENT ACTIVE GOAL CARD -->
+                <div class="dashboard-card" id="active-goal-card" style="border-top: 4px solid var(--primary);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <span class="user-badge" id="goal-type-badge">Active Goal</span>
+                            <h2 style="color: var(--text-white); font-size: 1.6rem; margin-top: 4px;" id="goal-title-display">Target Weight</h2>
+                        </div>
+                        <div id="goal-status-badge-container">
+                            <span class="badge-active">IN PROGRESS</span>
+                        </div>
+                    </div>
+
+                    <!-- METRICS GRID -->
+                    <div class="grid grid-3" style="margin-bottom: 20px;">
+                        <div style="background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                            <span style="font-size: 0.78rem; color: var(--text-light); text-transform: uppercase;">Current Weight</span>
+                            <h3 style="color: var(--text-white); font-size: 1.5rem; margin-top: 2px;" id="disp-current-weight">0.0 kg</h3>
+                        </div>
+
+                        <div style="background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                            <span style="font-size: 0.78rem; color: var(--text-light); text-transform: uppercase;">Target Weight</span>
+                            <h3 style="color: var(--primary); font-size: 1.5rem; margin-top: 2px;" id="disp-target-weight">0.0 kg</h3>
+                        </div>
+
+                        <div style="background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                            <span style="font-size: 0.78rem; color: var(--text-light); text-transform: uppercase;">Target Date</span>
+                            <h3 style="color: var(--secondary); font-size: 1.2rem; margin-top: 4px;" id="disp-target-date">-</h3>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESS BAR CONTAINER -->
+                    <div style="background-color: #0f172a; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 600; color: var(--text-white); font-size: 0.95rem;">Goal Progress</span>
+                            <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem;" id="disp-progress-percent">0%</span>
+                        </div>
+                        <div style="width: 100%; background-color: #1e293b; height: 14px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color);">
+                            <div id="disp-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981, #3b82f6); border-radius: 10px; transition: width 0.6s ease;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; color: var(--text-light);">
+                            <span id="disp-start-weight-sub">Start: 0.0 kg</span>
+                            <span id="disp-status-msg" style="color: var(--primary); font-weight: 500;">Calculating...</span>
+                        </div>
+                    </div>
+
+                    <!-- DAILY TARGETS & NOTES -->
+                    <div class="grid grid-2" style="margin-bottom: 20px;">
+                        <div style="background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 2rem;">🔥</span>
+                            <div>
+                                <span style="font-size: 0.78rem; color: var(--text-light); text-transform: uppercase; display: block;">Daily Calorie Target</span>
+                                <strong style="color: #fca5a5; font-size: 1.2rem;" id="disp-daily-calories">0 kcal</strong>
+                            </div>
+                        </div>
+
+                        <div style="background-color: #0f172a; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 2rem;">🥩</span>
+                            <div>
+                                <span style="font-size: 0.78rem; color: var(--text-light); text-transform: uppercase; display: block;">Daily Protein Target</span>
+                                <strong style="color: #93c5fd; font-size: 1.2rem;" id="disp-daily-protein">0 g</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="disp-notes-box" style="background-color: #0f172a; padding: 12px 16px; border-radius: 8px; border-left: 3px solid var(--secondary); font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;" class="hidden">
+                        <strong style="color: var(--text-white); display: block; margin-bottom: 2px;">Notes / Focus:</strong>
+                        <span id="disp-notes-text"></span>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                        <button type="button" id="btnEditGoal" class="btn btn-outline btn-sm">✏️ Edit Active Goal</button>
+                        <button type="button" id="btnDeleteGoal" class="btn-danger-sm">🗑️ Delete Goal</button>
+                    </div>
+
+                </div>
+
+                <!-- ADD / EDIT GOAL FORM CARD -->
+                <div class="dashboard-card">
+                    <h3 id="goal-form-title">➕ Set New Active Fitness Goal</h3>
+                    <p class="card-subtitle">Setting a new goal will automatically update your active focus target.</p>
+
+                    <form id="goal-form" onsubmit="return handleGoalFormSubmit(event)">
+                        <input type="hidden" id="goalId" value="">
+                        <input type="hidden" id="goalAction" value="add">
+
+                        <div class="form-row">
+                            <div class="col-6 form-group">
+                                <label for="goalType">Goal Type <span style="color: var(--danger);">*</span></label>
+                                <select id="goalType" required onchange="handleGoalTypeChange()">
+                                    <option value="Weight Loss">Weight Loss</option>
+                                    <option value="Muscle Gain">Muscle Gain</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                </select>
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label for="targetWeight">Target Weight (kg) <span style="color: var(--danger);">*</span></label>
+                                <input type="number" step="0.1" id="targetWeight" min="20" max="300" placeholder="e.g. 70.0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-6 form-group">
+                                <label for="targetDate">Target Date <span style="color: var(--danger);">*</span></label>
+                                <input type="date" id="targetDate" required>
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label for="dailyCalories">Daily Calorie Target (kcal)</label>
+                                <input type="number" id="dailyCalories" min="500" max="10000" placeholder="e.g. 2200">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-6 form-group">
+                                <label for="dailyProtein">Daily Protein Target (g)</label>
+                                <input type="number" id="dailyProtein" min="0" max="500" placeholder="e.g. 150">
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label for="notes">Notes / Strategy</label>
+                                <input type="text" id="notes" placeholder="Optional notes e.g. 4 workouts per week">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 15px;">
+                            <button type="button" id="btnCancelEditGoal" class="btn btn-outline btn-sm hidden">Cancel Edit</button>
+                            <button type="submit" id="btnSaveGoal" class="btn btn-primary btn-sm">Set Active Goal</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: GOAL TIPS & HISTORY -->
+            <div class="sidebar-column">
+                
+                <!-- TIPS CARD -->
+                <div class="dashboard-card">
+                    <h4>💡 SMART Goal Tips</h4>
+                    <ul class="workout-tips-list">
+                        <li>
+                            <strong>Realistic Pace</strong>
+                            Aim for 0.5 – 1.0 kg per week for sustainable weight management.
+                        </li>
+                        <li>
+                            <strong>Protein Priority</strong>
+                            Maintain 1.6 – 2.2g of protein per kg of body weight for muscle recovery.
+                        </li>
+                        <li>
+                            <strong>Track Consistently</strong>
+                            Log workouts and weight progress regularly to see accurate progress bars.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- GOAL HISTORY CARD -->
+                <div class="dashboard-card">
+                    <h4>📜 Goal History</h4>
+                    <div id="goal-history-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                        <p style="color: var(--text-light); font-size: 0.88rem;">Loading goal history...</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DELETE GOAL CONFIRMATION MODAL -->
+    <div id="delete-goal-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3>Delete Fitness Goal?</h3>
+            <p id="delete-goal-msg">Are you sure you want to delete this fitness goal?</p>
+            
+            <input type="hidden" id="deleteTargetGoalId">
+            
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                <button type="button" id="btnCancelDeleteGoalModal" class="btn btn-outline btn-sm">Cancel</button>
+                <button type="button" id="btnConfirmDeleteGoalModal" class="btn btn-danger-sm" style="padding: 8px 20px; font-weight: 600;">Yes, Delete Goal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

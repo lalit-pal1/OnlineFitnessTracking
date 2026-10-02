@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="admin-dashboard">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="admin-dashboard.html" class="logo">Fit<span>Track</span> <small style="font-size: 0.7rem; color: #3b82f6; text-transform: uppercase; font-weight: 600; margin-left: 4px;">Admin</small></a>
+            <nav class="nav-links">
+                <a href="admin-dashboard.html" class="active">Dashboard</a>
+                <a href="admin-users.html">Users</a>
+                <a href="admin-exercises.html">Exercises</a>
+                <a href="admin-nutrition.html">Nutrition</a>
+                <a href="admin-workouts.html">Workouts</a>
+                <a href="admin-progress.html">Progress</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="admin-dashboard.html" class="active">📊 Admin Dashboard</a>
+        <a href="admin-users.html">👥 Users Management</a>
+        <a href="admin-exercises.html">🏋️ Exercise Catalog</a>
+        <a href="admin-workouts.html">💪 Workout Logs</a>
+        <a href="admin-nutrition.html">🥗 Nutrition Logs</a>
+        <a href="admin-progress.html">📈 Progress Logs</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- ADMIN DASHBOARD CONTENT -->
+    <div class="container section">
+        
+        <!-- Welcome Banner -->
+        <div class="welcome-banner" style="border-left: 4px solid var(--secondary);">
+            <div>
+                <h1>System Overview</h1>
+                <p>Real-time system statistics and recent user activities across FitTrack platform.</p>
+            </div>
+            <div class="banner-date">
+                <span class="admin-badge">Administrator Panel</span>
+            </div>
+        </div>
+
+        <!-- Alert Banner -->
+        <div id="alertBox" class="alert-box hidden"></div>
+
+        <!-- STATS GRID -->
+        <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #60a5fa; background-color: rgba(59, 130, 246, 0.1);">👥</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Users</span>
+                    <h2 id="totalUsers">0</h2>
+                    <span class="stat-sub">Registered accounts</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #34d399; background-color: rgba(16, 185, 129, 0.1);">🏋️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Exercises</span>
+                    <h2 id="totalExercises">0</h2>
+                    <span class="stat-sub">Master exercise catalog</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #fbbf24; background-color: rgba(245, 158, 11, 0.1);">🔥</div>
+                <div class="stat-info">
+                    <span class="stat-label">Workouts Logged</span>
+                    <h2 id="totalWorkouts">0</h2>
+                    <span class="stat-sub"><span id="workoutsToday" style="color: var(--primary); font-weight: 600;">0</span> logged today</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #c4b5fd; background-color: rgba(139, 92, 246, 0.1);">🥗</div>
+                <div class="stat-info">
+                    <span class="stat-label">Nutrition Logs</span>
+                    <h2 id="totalNutrition">0</h2>
+                    <span class="stat-sub"><span id="nutritionToday" style="color: var(--primary); font-weight: 600;">0</span> logged today</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECONDARY STATS GRID -->
+        <div class="grid grid-3" style="margin-bottom: 35px;">
+            <div class="stat-card" style="background-color: rgba(15, 23, 42, 0.8);">
+                <div class="stat-icon" style="color: #fca5a5; background-color: rgba(239, 68, 68, 0.1);">📈</div>
+                <div class="stat-info">
+                    <span class="stat-label">Progress Records</span>
+                    <h3 id="totalProgress">0</h3>
+                    <span class="stat-sub"><span id="progressThisMonth" style="color: var(--secondary); font-weight: 600;">0</span> added this month</span>
+                </div>
+            </div>
+
+            <div class="stat-card" style="background-color: rgba(15, 23, 42, 0.8);">
+                <div class="stat-icon" style="color: #34d399; background-color: rgba(16, 185, 129, 0.1);">⚡</div>
+                <div class="stat-info">
+                    <span class="stat-label">System Status</span>
+                    <h3>Active</h3>
+                    <span class="stat-sub">MySQL & Tomcat 10 Online</span>
+                </div>
+            </div>
+
+            <div class="stat-card" style="background-color: rgba(15, 23, 42, 0.8);">
+                <div class="stat-icon" style="color: #60a5fa; background-color: rgba(59, 130, 246, 0.1);">🛡️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Security Role</span>
+                    <h3>Admin</h3>
+                    <span class="stat-sub">Full management access</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT ACTIVITY STREAMS GRID -->
+        <div class="grid grid-3">
+            
+            <!-- Recent Users -->
+            <div class="dashboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>👥 Recent Registered Users</h3>
+                    <a href="admin-users.html" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div id="recentUsersList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Loading recent users...</p>
+                </div>
+            </div>
+
+            <!-- Recent Workouts -->
+            <div class="dashboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>🏋️ Recent Workouts</h3>
+                    <a href="admin-workouts.html" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div id="recentWorkoutsList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Loading recent workouts...</p>
+                </div>
+            </div>
+
+            <!-- Recent Nutrition -->
+            <div class="dashboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>🥗 Recent Nutrition Logs</h3>
+                    <a href="admin-nutrition.html" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div id="recentNutritionList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Loading recent nutrition...</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

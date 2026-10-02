@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="login">
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="register.html">Register</a>
+                <a href="admin-login.html">Admin Portal</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="index.html">🏠 Home</a>
+        <a href="login.html" class="active">👤 User Login</a>
+        <a href="register.html">📝 Register Account</a>
+        <a href="admin-login.html">🛡️ Admin Portal</a>
+    </div>
+
+    <!-- MAIN LOGIN CONTENT -->
+    <div class="container section" style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
+        <div class="auth-card" style="width: 100%; max-width: 440px; border-top: 4px solid var(--primary);">
+            
+            <div style="text-align: center; margin-bottom: 24px;">
+                <span class="user-badge" style="margin-bottom: 8px;">User Access Portal</span>
+                <h2 style="font-size: 1.8rem; color: var(--text-white); margin-top: 4px;">Welcome Back</h2>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Sign in to access your fitness tracking dashboard.</p>
+            </div>
+
+            <!-- ALERT BOX -->
+            <div id="alert-box" class="alert-box hidden"></div>
+
+            <form action="login" method="POST" onsubmit="return validateLoginForm()">
+                <div class="form-group">
+                    <label for="email">Email Address <span style="color: var(--danger);">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="e.g. user@example.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span style="color: var(--danger);">*</span></label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 10px;">Sign In to Dashboard</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-light);">
+                Don't have an account? <a href="register.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">Create Free Account &rarr;</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

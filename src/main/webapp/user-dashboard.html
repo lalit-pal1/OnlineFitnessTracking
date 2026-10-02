@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - FitTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="user-dashboard.html" class="logo">Fit<span>Track</span></a>
+            <nav class="nav-links">
+                <a href="user-dashboard.html" class="active">Dashboard</a>
+                <a href="workout.html">Workout Tracking</a>
+                <a href="nutrition.html">Nutrition Tracking</a>
+                <a href="progress.html">Progress Tracking</a>
+                <a href="goals.html">My Goals</a>
+                <a href="#profile-section">Profile</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="user-dashboard.html" class="active">📊 Dashboard</a>
+        <a href="workout.html">🏋️ Workout Tracking</a>
+        <a href="nutrition.html">🥗 Nutrition Tracking</a>
+        <a href="progress.html">📈 Progress Tracking</a>
+        <a href="goals.html">🎯 My Goals</a>
+        <a href="#profile-section">👤 Profile</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- DASHBOARD MAIN CONTENT -->
+    <main class="container section">
+        
+        <!-- DASHBOARD ERROR ALERT (IF ANY) -->
+        <div id="dashboard-alert" class="alert-box alert-error hidden"></div>
+
+        <!-- WELCOME BANNER -->
+        <div class="welcome-banner">
+            <div>
+                <span class="user-badge">Logged In User</span>
+                <h1 id="welcome-heading">Welcome!</h1>
+                <p>Here is an overview of your fitness metrics and profile information.</p>
+            </div>
+            <div class="banner-date" id="current-date"></div>
+        </div>
+
+        <!-- SUMMARY STAT CARDS GRID -->
+        <div class="grid grid-4 stat-grid">
+            
+            <!-- STAT 1: CURRENT WEIGHT -->
+            <div class="stat-card">
+                <div class="stat-icon weight-icon">⚖️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Current Weight</span>
+                    <h2 id="stat-weight">--</h2>
+                    <span class="stat-sub">Kilograms (kg)</span>
+                </div>
+            </div>
+
+            <!-- STAT 2: BMI & CATEGORY -->
+            <div class="stat-card">
+                <div class="stat-icon bmi-icon">📊</div>
+                <div class="stat-info">
+                    <span class="stat-label">Body Mass Index (BMI)</span>
+                    <h2 id="stat-bmi">--</h2>
+                    <span id="stat-bmi-category" class="bmi-badge">--</span>
+                </div>
+            </div>
+
+            <!-- STAT 3: FITNESS GOAL -->
+            <div class="stat-card">
+                <div class="stat-icon goal-icon">🎯</div>
+                <div class="stat-info">
+                    <span class="stat-label">Primary Goal</span>
+                    <h3 id="stat-goal">--</h3>
+                    <span class="stat-sub">Target Plan</span>
+                </div>
+            </div>
+
+            <!-- STAT 4: AGE & GENDER -->
+            <div class="stat-card">
+                <div class="stat-icon age-icon">👤</div>
+                <div class="stat-info">
+                    <span class="stat-label">Demographics</span>
+                    <h3 id="stat-age-gender">--</h3>
+                    <span class="stat-sub">Age & Gender</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TWO COLUMN DASHBOARD LAYOUT -->
+        <div class="dashboard-columns">
+            
+            <!-- LEFT COLUMN: QUICK ACTIONS & ACTIVITY -->
+            <div class="column-main">
+                
+                <!-- QUICK ACTIONS -->
+                <div class="dashboard-card">
+                    <h3>🚀 Quick Actions</h3>
+                    <p class="card-subtitle">Fast shortcuts to your fitness management modules.</p>
+
+                    <div class="grid grid-2 action-grid">
+                        <!-- ACTIVE MODULE: WORKOUT TRACKING -->
+                        <div class="action-card active-card" onclick="window.location.href='workout.html'">
+                            <div class="action-icon">🏋️‍♂️</div>
+                            <div class="action-details">
+                                <h4>Track Workout <span class="badge-active">Active</span></h4>
+                                <p>Log daily exercise routines, sets, reps & weight.</p>
+                            </div>
+                        </div>
+
+                        <!-- ACTIVE MODULE: NUTRITION TRACKING -->
+                        <div class="action-card active-card" onclick="window.location.href='nutrition.html'">
+                            <div class="action-icon">🥗</div>
+                            <div class="action-details">
+                                <h4>Track Nutrition <span class="badge-active">Active</span></h4>
+                                <p>Monitor daily food intake, calories & macros.</p>
+                            </div>
+                        </div>
+
+                        <!-- ACTIVE MODULE: PROGRESS TRACKING -->
+                        <div class="action-card active-card" onclick="window.location.href='progress.html'">
+                            <div class="action-icon">📈</div>
+                            <div class="action-details">
+                                <h4>View Progress <span class="badge-active">Active</span></h4>
+                                <p>Check body weight history & progress charts.</p>
+                            </div>
+                        </div>
+
+                        <!-- ACTIVE MODULE: MY GOALS -->
+                        <div class="action-card active-card" onclick="window.location.href='goals.html'">
+                            <div class="action-icon">🏆</div>
+                            <div class="action-details">
+                                <h4>My Goals <span class="badge-active">Active</span></h4>
+                                <p>Set and update personal fitness targets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY PLACEHOLDER -->
+                <div class="dashboard-card">
+                    <h3>📋 Recent Activity</h3>
+                    <div class="placeholder-box">
+                        <div class="placeholder-icon">⌛</div>
+                        <h4>No Recent Logs Yet</h4>
+                        <p>Your workout sessions and daily nutrition logs will be displayed here in future module updates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: USER PROFILE DETAILS & BMI GUIDE -->
+            <div class="column-sidebar" id="profile-section">
+                
+                <!-- USER PROFILE CARD -->
+                <div class="dashboard-card profile-card">
+                    <div class="profile-avatar" id="profile-initials">U</div>
+                    <h3 id="profile-name">Loading Profile...</h3>
+                    <p id="profile-email" class="profile-email">--</p>
+
+                    <div class="profile-details-list">
+                        <div class="detail-row">
+                            <span class="detail-label">Age</span>
+                            <span class="detail-value" id="detail-age">--</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Gender</span>
+                            <span class="detail-value" id="detail-gender">--</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Height</span>
+                            <span class="detail-value" id="detail-height">-- cm</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value" id="detail-weight">-- kg</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Fitness Goal</span>
+                            <span class="detail-valueHighlight" id="detail-goal">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BMI REFERENCE CHART CARD -->
+                <div class="dashboard-card">
+                    <h4>💡 BMI Reference Scale</h4>
+                    <ul class="bmi-scale-list">
+                        <li><span class="scale-dot dot-underweight"></span> Underweight (&lt; 18.5)</li>
+                        <li><span class="scale-dot dot-normal"></span> Normal (18.5 - 24.9)</li>
+                        <li><span class="scale-dot dot-overweight"></span> Overweight (25.0 - 29.9)</li>
+                        <li><span class="scale-dot dot-obese"></span> Obese (30.0+)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- COMING SOON MODAL -->
+    <div id="coming-soon-modal" class="modal-backdrop hidden" onclick="closeComingSoonModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-icon">🚧</div>
+            <h3 id="modal-module-title">Feature Coming Soon</h3>
+            <p>The <strong id="modal-feature-name">this module</strong> is currently under development and will be unlocked in later project releases.</p>
+            <button class="btn btn-primary" onclick="closeComingSoonModal()">Got it!</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

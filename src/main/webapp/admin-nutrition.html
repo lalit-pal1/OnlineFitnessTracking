@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Logs Management - FitTrack Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="admin-nutrition">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="admin-dashboard.html" class="logo">Fit<span>Track</span> <small style="font-size: 0.7rem; color: #3b82f6; text-transform: uppercase; font-weight: 600; margin-left: 4px;">Admin</small></a>
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-users.html">Users</a>
+                <a href="admin-exercises.html">Exercises</a>
+                <a href="admin-nutrition.html" class="active">Nutrition</a>
+                <a href="admin-workouts.html">Workouts</a>
+                <a href="admin-progress.html">Progress</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="admin-dashboard.html">📊 Admin Dashboard</a>
+        <a href="admin-users.html">👥 Users Management</a>
+        <a href="admin-exercises.html">🏋️ Exercise Catalog</a>
+        <a href="admin-workouts.html">💪 Workout Logs</a>
+        <a href="admin-nutrition.html" class="active">🥗 Nutrition Logs</a>
+        <a href="admin-progress.html">📈 Progress Logs</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container section">
+
+        <div class="welcome-banner" style="border-left: 4px solid #c4b5fd;">
+            <div>
+                <h1>Nutrition Activity Log Oversight</h1>
+                <p>Monitor all user dietary food logs, filter entries by user or date, inspect macronutrients, and clean up records.</p>
+            </div>
+            <div class="banner-date">
+                <span id="nutritionCountBadge" class="history-count">0 Logs</span>
+            </div>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="alertBox" class="alert-box hidden"></div>
+
+        <!-- FILTER BAR -->
+        <div class="nutrition-filter-bar">
+            <div class="filter-label-group">
+                <span class="filter-icon">🥗</span>
+                <label style="font-weight: 500;">Filter Logs:</label>
+            </div>
+            <div class="filter-input-group" style="flex: 1; display: flex; gap: 10px; flex-wrap: wrap;">
+                <select id="nutritionUserFilter" class="filter-date-input" style="min-width: 180px;">
+                    <option value="ALL">All Users</option>
+                </select>
+
+                <input type="date" id="nutritionDateFilter" class="filter-date-input">
+
+                <input type="text" id="nutritionSearchInput" class="filter-date-input" placeholder="Search food item or user..." style="flex: 1; min-width: 180px;">
+
+                <button type="button" id="btnFilterNutrition" class="btn btn-secondary btn-sm">Filter</button>
+                <button type="button" id="btnResetNutritionFilter" class="btn btn-outline btn-sm">Reset</button>
+            </div>
+        </div>
+
+        <!-- NUTRITION TABLE -->
+        <div class="dashboard-card" style="padding: 20px;">
+            <div class="history-table-wrapper">
+                <table class="workout-history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Food Item</th>
+                            <th>Meal Type</th>
+                            <th>Time</th>
+                            <th>Calories</th>
+                            <th>Protein</th>
+                            <th>Carbs</th>
+                            <th>Fats</th>
+                            <th>Date</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nutritionTableBody">
+                        <tr>
+                            <td colspan="11" style="text-align: center; color: var(--text-light); padding: 30px;">
+                                Loading nutrition logs...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DELETE NUTRITION LOG CONFIRMATION MODAL -->
+    <div id="deleteNutritionModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3>Delete Nutrition Entry?</h3>
+            <p id="deleteNutritionMsg">Are you sure you want to delete this nutrition food log?</p>
+            
+            <input type="hidden" id="deleteTargetNutritionId">
+            
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                <button type="button" id="btnCancelDeleteNutrition" class="btn btn-outline btn-sm">Cancel</button>
+                <button type="button" id="btnConfirmDeleteNutrition" class="btn btn-danger-sm" style="padding: 8px 20px; font-weight: 600;">Delete Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

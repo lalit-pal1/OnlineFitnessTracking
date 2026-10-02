@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Activity Management - FitTrack Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="admin-progress">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="admin-dashboard.html" class="logo">Fit<span>Track</span> <small style="font-size: 0.7rem; color: #3b82f6; text-transform: uppercase; font-weight: 600; margin-left: 4px;">Admin</small></a>
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-users.html">Users</a>
+                <a href="admin-exercises.html">Exercises</a>
+                <a href="admin-nutrition.html">Nutrition</a>
+                <a href="admin-workouts.html">Workouts</a>
+                <a href="admin-progress.html" class="active">Progress</a>
+                <a href="logout" class="btn btn-outline btn-sm">Logout</a>
+            </nav>
+            <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="admin-dashboard.html">📊 Admin Dashboard</a>
+        <a href="admin-users.html">👥 Users Management</a>
+        <a href="admin-exercises.html">🏋️ Exercise Catalog</a>
+        <a href="admin-workouts.html">💪 Workout Logs</a>
+        <a href="admin-nutrition.html">🥗 Nutrition Logs</a>
+        <a href="admin-progress.html" class="active">📈 Progress Logs</a>
+        <a href="logout" style="color: var(--danger);">🚪 Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container section">
+
+        <div class="welcome-banner" style="border-left: 4px solid #fca5a5;">
+            <div>
+                <h1>User Progress Log Oversight</h1>
+                <p>Monitor user body weight and BMI progress entries, filter logs by user or date, and delete invalid records.</p>
+            </div>
+            <div class="banner-date">
+                <span id="progressCountBadge" class="history-count">0 Entries</span>
+            </div>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="alertBox" class="alert-box hidden"></div>
+
+        <!-- FILTER BAR -->
+        <div class="nutrition-filter-bar">
+            <div class="filter-label-group">
+                <span class="filter-icon">📈</span>
+                <label style="font-weight: 500;">Filter Progress:</label>
+            </div>
+            <div class="filter-input-group" style="flex: 1; display: flex; gap: 10px; flex-wrap: wrap;">
+                <select id="progressUserFilter" class="filter-date-input" style="min-width: 180px;">
+                    <option value="ALL">All Users</option>
+                </select>
+
+                <input type="date" id="progressDateFilter" class="filter-date-input">
+
+                <input type="text" id="progressSearchInput" class="filter-date-input" placeholder="Search user or notes..." style="flex: 1; min-width: 180px;">
+
+                <button type="button" id="btnFilterProgress" class="btn btn-secondary btn-sm">Filter</button>
+                <button type="button" id="btnResetProgressFilter" class="btn btn-outline btn-sm">Reset</button>
+            </div>
+        </div>
+
+        <!-- PROGRESS TABLE -->
+        <div class="dashboard-card" style="padding: 20px;">
+            <div class="history-table-wrapper">
+                <table class="workout-history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Weight (kg)</th>
+                            <th>BMI</th>
+                            <th>BMI Category</th>
+                            <th>Progress Date</th>
+                            <th>Notes</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="progressTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-light); padding: 30px;">
+                                Loading progress records...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DELETE PROGRESS LOG CONFIRMATION MODAL -->
+    <div id="deleteProgressModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3>Delete Progress Entry?</h3>
+            <p id="deleteProgressMsg">Are you sure you want to delete this body weight / BMI progress record?</p>
+            
+            <input type="hidden" id="deleteTargetProgressId">
+            
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                <button type="button" id="btnCancelDeleteProgress" class="btn btn-outline btn-sm">Cancel</button>
+                <button type="button" id="btnConfirmDeleteProgress" class="btn btn-danger-sm" style="padding: 8px 20px; font-weight: 600;">Delete Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 FitTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
