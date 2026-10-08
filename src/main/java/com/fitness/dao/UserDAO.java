@@ -2,6 +2,7 @@ package com.fitness.dao;
 
 import com.fitness.model.User;
 import com.fitness.util.DatabaseConnection;
+import com.fitness.util.PasswordUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +41,7 @@ public class UserDAO {
             
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail().trim().toLowerCase());
-            ps.setString(3, user.getPassword());
+            ps.setString(3, PasswordUtil.hashPassword(user.getPassword()));
             ps.setInt(4, user.getAge());
             ps.setString(5, user.getGender());
             ps.setDouble(6, user.getHeight());
@@ -57,16 +58,15 @@ public class UserDAO {
      * Returns User object if valid, null if invalid.
      */
     public User loginUser(String email, String password) throws SQLException {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, email.trim().toLowerCase());
-            ps.setString(2, password);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                if (rs.next() && PasswordUtil.verifyPassword(password, rs.getString("password"))) {
                     return mapUserFromResultSet(rs);
                 }
             }
@@ -102,7 +102,8 @@ public class UserDAO {
         user.setUserId(rs.getInt("user_id"));
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
+        // Never keep the stored password hash in the authenticated User object/session.
+        user.setPassword(null);
         user.setAge(rs.getInt("age"));
         user.setGender(rs.getString("gender"));
         user.setHeight(rs.getDouble("height"));

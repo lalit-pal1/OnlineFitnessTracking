@@ -150,7 +150,7 @@ public class NutritionServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 
@@ -316,10 +316,10 @@ public class NutritionServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         } catch (Exception e) {
             e.printStackTrace();
-            out.write("{\"status\":\"error\",\"message\":\"Server error: " + escapeJson(e.getMessage()) + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Server error. Please try again later." + "\"}");
         }
     }
 

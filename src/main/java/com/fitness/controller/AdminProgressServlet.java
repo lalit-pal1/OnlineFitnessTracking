@@ -155,7 +155,7 @@ public class AdminProgressServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 
@@ -191,7 +191,7 @@ public class AdminProgressServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+                out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -150,11 +150,11 @@ CREATE TABLE goals (
 
 -- 1. Sample Admin Account
 INSERT INTO admin (name, email, password) VALUES
-('System Admin', 'admin@fitnesstracker.com', 'admin123');
+('System Admin', 'admin@fitnesstracker.com', 'pbkdf2_sha256$600000$3UQ8zvxCk4FxvZB1u402YA==$4OMmIhKRolZhFkcuBG5jqst2pSuc+FmJLZvEDhp0T1k=');
 
 -- 2. Sample User Account
 INSERT INTO users (name, email, password, age, gender, height, weight, fitness_goal) VALUES
-('John Doe', 'john@example.com', 'user123', 25, 'Male', 178.00, 75.50, 'Muscle Gain (78.0 kg)');
+('John Doe', 'john@example.com', 'pbkdf2_sha256$600000$s/wWsbUjRjes8HHNapcZkQ==$XNGGzlN3vIT7+f1qKVqLSvjcJbNgpfrIVBGA5EGEAWk=', 25, 'Male', 178.00, 75.50, 'Muscle Gain (78.0 kg)');
 
 -- 3. Master Exercises List
 INSERT INTO exercises (exercise_name, muscle_group, description) VALUES

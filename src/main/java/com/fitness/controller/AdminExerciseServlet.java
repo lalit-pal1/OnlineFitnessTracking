@@ -63,7 +63,7 @@ public class AdminExerciseServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 
@@ -104,7 +104,7 @@ public class AdminExerciseServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+                out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
             }
 
         } else if ("update".equalsIgnoreCase(action)) {
@@ -140,7 +140,7 @@ public class AdminExerciseServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+                out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
             }
 
         } else if ("delete".equalsIgnoreCase(action)) {
@@ -166,7 +166,7 @@ public class AdminExerciseServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+                out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
             }
 
         } else {

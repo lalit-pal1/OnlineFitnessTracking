@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 /**
@@ -42,6 +40,11 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        if (!email.trim().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            response.sendRedirect("login.html?error=invalid_email");
+            return;
+        }
+
         try {
             User user = userDAO.loginUser(email.trim(), password);
 
@@ -66,9 +69,8 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Database Error during User Login: " + e.getMessage());
-            String encodedMsg = URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
-            response.sendRedirect("login.html?error=invalid_credentials&msg=" + encodedMsg);
+            System.err.println("❌ Database Error during User Login");
+            response.sendRedirect("login.html?error=invalid_credentials");
         }
     }
 

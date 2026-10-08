@@ -44,7 +44,7 @@ public class RegisterServlet extends HttpServlet {
         // Backend Validation
         if (name == null || name.trim().isEmpty() ||
             email == null || email.trim().isEmpty() ||
-            password == null || password.trim().isEmpty() ||
+            password == null || password.isEmpty() ||
             ageStr == null || heightStr == null || weightStr == null) {
             
             response.sendRedirect("register.html?error=missing_fields");
@@ -56,8 +56,23 @@ public class RegisterServlet extends HttpServlet {
             double height = Double.parseDouble(heightStr.trim());
             double weight = Double.parseDouble(weightStr.trim());
 
-            if (age <= 0 || height <= 0 || weight <= 0) {
+            if (age < 10 || age > 100 || height < 50 || height > 250 || weight < 20 || weight > 300) {
                 response.sendRedirect("register.html?error=invalid_numbers");
+                return;
+            }
+
+            if (!email.trim().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                response.sendRedirect("register.html?error=invalid_email");
+                return;
+            }
+
+            if (password.length() < 8) {
+                response.sendRedirect("register.html?error=weak_password");
+                return;
+            }
+
+            if (name.trim().length() < 2 || name.trim().length() > 100) {
+                response.sendRedirect("register.html?error=invalid_name");
                 return;
             }
 
@@ -81,9 +96,8 @@ public class RegisterServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Database Error during User Registration: " + e.getMessage());
-            String encodedMsg = URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
-            response.sendRedirect("register.html?error=registration_failed&msg=" + encodedMsg);
+            System.err.println("❌ Database Error during User Registration");
+            response.sendRedirect("register.html?error=registration_failed");
         } catch (NumberFormatException e) {
             response.sendRedirect("register.html?error=invalid_format");
         }

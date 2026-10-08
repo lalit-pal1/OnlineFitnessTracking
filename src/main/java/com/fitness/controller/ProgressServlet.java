@@ -109,7 +109,7 @@ public class ProgressServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 
@@ -220,7 +220,7 @@ public class ProgressServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.write("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 

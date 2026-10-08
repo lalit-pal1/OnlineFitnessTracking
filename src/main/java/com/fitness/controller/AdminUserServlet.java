@@ -112,7 +112,7 @@ public class AdminUserServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print("{\"status\":\"error\",\"message\":\"Database error: " + escapeJson(e.getMessage()) + "\"}");
+            out.print("{\"status\":\"error\",\"message\":\"Database error. Please try again later." + "\"}");
         }
     }
 
@@ -144,7 +144,7 @@ public class AdminUserServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"status\":\"error\",\"message\":\"Failed to delete user: " + escapeJson(e.getMessage()) + "\"}");
+                out.print("{\"status\":\"error\",\"message\":\"Unable to delete the user. Please try again later." + "\"}");
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
